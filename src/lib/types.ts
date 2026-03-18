@@ -2,9 +2,10 @@
 // Core Types for NYC Housing Court Case Intake Analyzer
 // ============================================================
 
-export type CaseType = 'nonpayment' | 'holdover';
+export type CaseType = 'nonpayment' | 'holdover' | 'hp' | 'lockout_illegal_eviction';
 
 export type HoldoverSubtype =
+  | 'lease_expiration'
   | 'lease_expiration_regulated'
   | 'lease_expiration_unregulated'
   | 'licensee'
@@ -14,6 +15,26 @@ export type HoldoverSubtype =
   | 'chronic_nonpayment'
   | 'illegal_use'
   | 'squatter';
+
+export const CASE_TYPE_LABELS: Record<CaseType, string> = {
+  nonpayment: 'Nonpayment',
+  holdover: 'Holdover',
+  hp: 'HP (Housing Part)',
+  lockout_illegal_eviction: 'Lockout / Illegal Eviction',
+};
+
+export const HOLDOVER_SUBTYPE_LABELS: Record<HoldoverSubtype, string> = {
+  lease_expiration: 'Lease Expiration (General)',
+  lease_expiration_regulated: 'Lease Expiration (Rent Regulated)',
+  lease_expiration_unregulated: 'Lease Expiration (Unregulated)',
+  licensee: 'Licensee / Squatter',
+  nuisance: 'Nuisance',
+  owner_use: 'Owner Use',
+  nonprimary_residence: 'Non-Primary Residence',
+  chronic_nonpayment: 'Chronic Nonpayment',
+  illegal_use: 'Illegal Use',
+  squatter: 'Squatter',
+};
 
 export interface CaseInfo {
   id?: string;
@@ -82,6 +103,26 @@ export interface Finding {
   sourceDocument?: string;
   sourceText?: string;
   actionRequired?: string;
+}
+
+export type DefenseSeverity = 'critical' | 'high' | 'medium' | 'low';
+
+export type DefenseCategory =
+  | 'service'
+  | 'predicate_notice'
+  | 'notice_of_petition'
+  | 'filing_dates'
+  | 'gcel'
+  | 'petition'
+  | 'other';
+
+export interface DefenseIssue {
+  category: DefenseCategory;
+  severity: DefenseSeverity;
+  title: string;
+  description: string;
+  legalBasis?: string;
+  recommendation?: string;
 }
 
 export interface ExternalLookupResult {

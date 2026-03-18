@@ -43,6 +43,11 @@ export const HOLDOVER_PREDICATE_NOTICE: Record<HoldoverSubtype, {
   noticePeriod: string;
   notes: string;
 }> = {
+  lease_expiration: {
+    noticeType: 'Termination Notice / Notice of Non-Renewal',
+    noticePeriod: '30-150 days depending on tenancy type and length',
+    notes: 'General lease expiration. Check regulatory status for specific requirements.',
+  },
   lease_expiration_regulated: {
     noticeType: 'Notice of Non-Renewal (with good cause)',
     noticePeriod: '90/120/150 days before lease expiration (based on tenancy length)',
@@ -176,3 +181,14 @@ export const HIGH_UNIT_PATTERNS = [
   /\b(\d{2,})[A-Z]\b/,                           // 10F, 12A, etc.
   /\b[A-Z]?(\d{2,})\b/,                          // Plain numbers 11+
 ];
+
+// Consolidated legal rules for analysis modules
+export const LEGAL_RULES = {
+  nonpayment_demand_notice_days: NONPAYMENT_RULES.standardNoticeDays,
+  petition_service_days_before_return: 5, // RPAPL § 733(1) - at least 5 days before return date
+  holdover_termination_notice_days: 30, // minimum for tenancy < 1 year
+  gcel_small_landlord_threshold: GCEL_RULES.smallLandlordThreshold,
+};
+
+// Re-export GCEL exceptions for analysis modules
+export const GCEL_EXCEPTIONS = GCEL_RULES.exceptions;
